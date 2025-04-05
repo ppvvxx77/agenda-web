@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda com Calendário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        button {
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        li {
+            background-color: #fff;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .data {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .remover {
+            background-color: crimson;
+            border: none;
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .remover:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>📅 Minha Agenda</h1>
+
+    <input type="text" id="compromissoInput" placeholder="Digite um compromisso">
+    <input type="date" id="dataInput">
+    <button id="botaoAdicionar">Adicionar</button>
+
+    <ul id="listaCompromissos"></ul>
+
+    <script>
+        // Só roda o JS depois que todo o HTML estiver carregado
+        document.addEventListener("DOMContentLoaded", function () {
+
+            document.getElementById('botaoAdicionar').addEventListener('click', adicionarCompromisso);
+
+            function adicionarCompromisso() {
+                const compromissoInput = document.getElementById('compromissoInput');
+                const dataInput = document.getElementById('dataInput');
+
+                const texto = compromissoInput.value.trim();
+                const data = dataInput.value;
+
+                if (texto !== "" && data !== "") {
+                    const lista = document.getElementById('listaCompromissos');
+                    const item = document.createElement('li');
+
+                    const dataFormatada = new Date(data).toLocaleDateString('pt-BR');
+
+                    item.innerHTML = `
+                        <span><span class="data">${dataFormatada}:</span> ${texto}</span>
+                        <button class="remover" onclick="removerItem(this)">Remover</button>
+                    `;
+
+                    lista.appendChild(item);
+
+                    compromissoInput.value = '';
+                    dataInput.value = '';
+                } else {
+                    alert('Preencha o compromisso e selecione a data.');
+                }
+            }
+
+            window.removerItem = function(botao) {
+                botao.parentElement.remove();
+            };
+        });
+    </script>
+</body>
+
+</html>
